@@ -1,0 +1,11 @@
+# List of streamers work on. Currently only Twitch is supported.
+chats:
+  - OurChickenLife
+
+# Minimum time to wait between starting or stopping new jobs.
+loop_seconds: 5
+
+db_url: sqlite://./twitchchatscraper.sqlite
+
+# Whether to hide the Playwright browser window
+headless: True

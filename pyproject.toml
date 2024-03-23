@@ -1,0 +1,13 @@
+[project]
+name = "twitchchatscraper"
+version = "0.1"
+dependencies = [
+    "playwright",
+    "pydantic",
+    "click",
+    "streamerdb",
+]
+requires-python = ">= 3.10"
+
+[project.scripts]
+twitchchatscraper = "twitchchatscraper:cli"
