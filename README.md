@@ -1,7 +1,7 @@
 ## About TwitchChatScraper
 Monitors multiple streamers on Twitch and saves their chats to an sqlite database 
 file through my other project, streamerdb. Options to dump the collected data
-in different formats such as a .txt files.
+in different formats such as .txt files.
 
 ## Installation
 I don't have a Makefile or any kind of install script because I'm lazy but 
@@ -11,7 +11,7 @@ here's the outline:
     - `git checkout https://github.com/bistromathica/twitchchatscraper.git`
 - Install and activate Python virtual environment
     - `python3 -m venv .venv`
-    - `source .venv2/bin/activate`
+    - `source .venv/bin/activate`
 - Install projects and dependencies
     - `pip install ./streamerdb`
     - `pip install ./twitchchatscraper`
