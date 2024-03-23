@@ -6,6 +6,7 @@ dependencies = [
     "pydantic",
     "click",
     "streamerdb",
+    "PyYAML",
 ]
 requires-python = ">= 3.10"
 

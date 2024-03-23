@@ -184,7 +184,7 @@ def stop_all(*args):
     should_stop.set()
 
 
-@cli.command(help='Start the scraper for the configured Twitch chats')
+@cli.command(help='Start the scraper for the configured Twitch chats.')
 @click.pass_context
 def scrape(ctx):
     asyncio.run(_scrape(ctx.obj['config'], process_chat))
@@ -216,4 +216,3 @@ def dumpviewerlists(ctx, directory):
 @click.pass_context
 def dumpchat(ctx, username, directory):
     asyncio.run(_query(ctx.obj['config'], _dumpchat(username, directory)))
-
