@@ -162,6 +162,17 @@ async def _dumpchat(username, directory):
             file.write(f"[{created.strftime('%H:%M')}] <{author}> {message}\n")
 
 
+async def _dumpall(timestamps=True):
+    """Dumps all chats in database."""
+    async for created, streamer, author, message in (
+            ChatMessage.all().order_by('created')
+            .values_list('created', 'streamer__username__username', 'viewer__username', 'message')):
+        if timestamps:
+            print(f"[{streamer}] {created.strftime('%Y-%m-%d %H:%M:%S')} <{author}> {message}")
+        else:
+            print(f"[{streamer}] <{author}> {message}")
+
+
 @click.group()
 @click.option('--verbose', '-v', is_flag=True, default=[], multiple=True, help='Verbose output')
 @click.option('--config', '-c', default=None, help='Custom config file location')
@@ -216,3 +227,10 @@ def dumpviewerlists(ctx, directory):
 @click.pass_context
 def dumpchat(ctx, username, directory):
     asyncio.run(_query(ctx.obj['config'], _dumpchat(username, directory)))
+
+
+@cli.command(help='Dump all chats to stdout for grepping')
+@click.option("--no-timestamps", is_flag=True, help="Don't print timestamps in output", )
+@click.pass_context
+def dumpall(ctx, no_timestamps):
+    asyncio.run(_query(ctx.obj['config'], _dumpall(not no_timestamps)))

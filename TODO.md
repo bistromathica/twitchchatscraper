@@ -1,5 +1,5 @@
 * run the `playwright install` command automatically
-* dump all as text command for grepping
+* ~~dump all as text command for grepping~~
 * database pruning functions
 * get viewer lists while scraping chat
 * username appearances or chats query
