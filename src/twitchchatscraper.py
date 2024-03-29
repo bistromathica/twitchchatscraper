@@ -29,6 +29,14 @@ async def twitch_message_to_text(parent):
     return body
 
 
+async def parse_twitch_message(element):
+    username = await element.get_attribute('data-a-user')
+    body = await twitch_message_to_text(element)
+    # await element.evaluate("element => element.setAttribute('data-parsed', 'true')")
+    await element.evaluate("element => element.remove()")
+    return username, body
+
+
 async def scrape_chat(browser: Browser, streamer: Streamer):
     """
     div.stream-chat is the parent element for the chat.
@@ -39,19 +47,12 @@ async def scrape_chat(browser: Browser, streamer: Streamer):
     async with http_semaphore:
         await page.goto(await streamer.get_chat_url())
     logging.debug('opened')
-    message_locator = page.locator('div.chat-line__message').last
-    await message_locator.wait_for(timeout=0)
-    last = None
+    message_locator = page.locator('div.chat-line__message').first
+
     while not should_stop.is_set():
-        logging.debug('poll element for %s', streamer)
-        element = await message_locator.element_handle()
-        username = await element.get_attribute('data-a-user')
-        body = await twitch_message_to_text(element)
-        msg = (username, body)
-        if msg != last:
-            yield msg
-            last = msg
-        await asyncio.sleep(0.5)  # This just has to be polling for now
+        await message_locator.wait_for(timeout=0)
+        yield await parse_twitch_message(await message_locator.element_handle())
+        await asyncio.sleep(0.01)  # Be nice to CPU
 
 
 async def process_chat(browser: Browser, streamer: Streamer):
